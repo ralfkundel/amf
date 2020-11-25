@@ -491,7 +491,8 @@ func BuildRegistrationAccept(
 		}
 	}
 	registrationAccept.RegistrationResult5GS.SetRegistrationResultValue5GS(registrationResult)
-	// TODO: set smsAllowed value of RegistrationResult5GS if need
+	smsAllowed := uint8(0)
+	registrationAccept.RegistrationResult5GS.SetSMSAllowed(smsAllowed)
 
 	if ue.Guti != "" {
 		gutiNas := nasConvert.GutiToNas(ue.Guti)
@@ -547,6 +548,9 @@ func BuildRegistrationAccept(
 	}
 
 	// TODO: 5gs network feature support
+	registrationAccept.NetworkFeatureSupport5GS = nasType.NewNetworkFeatureSupport5GS(nasMessage.RegistrationAcceptNetworkFeatureSupport5GSType)
+	registrationAccept.NetworkFeatureSupport5GS.SetLen(uint8(2))
+	registrationAccept.NetworkFeatureSupport5GS.SetIMSVoPS3GPP(uint8(1)) //TODO-> from config file
 
 	if pDUSessionStatus != nil {
 		registrationAccept.PDUSessionStatus = nasType.NewPDUSessionStatus(nasMessage.RegistrationAcceptPDUSessionStatusType)

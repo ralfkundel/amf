@@ -723,6 +723,18 @@ func BuildPDUSessionResourceSetupRequest(ue *context.RanUe, nasPdu []byte,
 	ie.Value.PDUSessionResourceSetupListSUReq = &pduSessionResourceSetupRequestList
 	pDUSessionResourceSetupRequestIEs.List = append(pDUSessionResourceSetupRequestIEs.List, ie)
 
+	// PDU UEAggregateMaximumBitRate
+	ie = ngapType.PDUSessionResourceSetupRequestIEs{}
+	ie.Id.Value = ngapType.ProtocolIEIDUEAggregateMaximumBitRate
+	ie.Criticality.Value = ngapType.CriticalityPresentIgnore
+	ie.Value.Present = ngapType.PDUSessionResourceSetupRequestIEsPresentUEAggregateMaximumBitRate
+
+	ie.Value.UEAggregateMaximumBitRate = new(ngapType.UEAggregateMaximumBitRate)
+
+	ie.Value.UEAggregateMaximumBitRate.UEAggregateMaximumBitRateDL.Value = 1000000000 //TODO - should be read from database
+	ie.Value.UEAggregateMaximumBitRate.UEAggregateMaximumBitRateUL.Value = 1000000000 //TODO - should be read from database
+	pDUSessionResourceSetupRequestIEs.List = append(pDUSessionResourceSetupRequestIEs.List, ie)
+
 	return ngap.Encoder(pdu)
 }
 
